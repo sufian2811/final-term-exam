@@ -1,25 +1,29 @@
-import logo from './logo.svg';
 import './App.css';
+import {useDispatch, useSelector} from "react-redux";
+import {missionslice} from "./redux/slice/MissionsSlice";
+import {dragonslice} from "./redux/slice/DragonsSlice";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from "react-router-dom";
+import Home from './components/Home';
+import NavBar from './components/Navbar';
+import MissionsSlice from './redux/slice/MissionsSlice';
+import DragonsSlice from './redux/slice/DragonsSlice';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+    <NavBar/>
+    <Routes>
+    <Route exact path="/missions" element={<MissionsSlice/>} />
+    <Route exact path="/" element={<Home/>} />
+    <Route exact path="/dragons" element={<DragonsSlice/>} />
+    </Routes>
+    </Router>
   );
 }
 
 export default App;
+
