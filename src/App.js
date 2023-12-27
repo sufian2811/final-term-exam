@@ -1,29 +1,31 @@
 import './App.css';
-import {useDispatch, useSelector} from "react-redux";
-import {missionslice} from "./redux/slice/MissionsSlice";
-import {dragonslice} from "./redux/slice/DragonsSlice";
+import Dragon from './components/Dragon';
+import NavBar from './components/NavBar';
+import Mission from './components/Mission';
+import MyProfile from './components/MyProfile';
 import {
   BrowserRouter as Router,
   Routes,
   Route,
+  Link
 } from "react-router-dom";
-import Home from './components/Home';
-import NavBar from './components/Navbar';
-import MissionsSlice from './redux/slice/MissionsSlice';
-import DragonsSlice from './redux/slice/DragonsSlice';
+
 
 function App() {
   return (
-    <Router>
-    <NavBar/>
-    <Routes>
-    <Route exact path="/missions" element={<MissionsSlice/>} />
-    <Route exact path="/" element={<Home/>} />
-    <Route exact path="/dragons" element={<DragonsSlice/>} />
-    </Routes>
-    </Router>
+    <div>
+      <Router>
+      <NavBar/>
+      <Routes>
+        <Route exact path='/' element={<Dragon/>}/>
+        <Route exact path='/missions' element={<Mission/>}/>
+        <Route exact path='/myprofile' element={<MyProfile/>}/>
+      </Routes>
+     
+      </Router>
+     
+    </div>
   );
 }
 
 export default App;
-

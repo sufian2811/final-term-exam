@@ -1,10 +1,13 @@
 import {configureStore} from '@reduxjs/toolkit';
-import missionsliceReducer from './slice/MissionsSlice';
-import dragonsliceReducer from './slice/DragonsSlice';
+import dragonSlice from '../slices/dragonSlice';
+import missionSlice from '../slices/missionSlice';
 
-export const store=configureStore({
-    reducer: {
-        dragonslice: dragonsliceReducer,
-        missionslice: missionsliceReducer,
+
+const store=configureStore({
+    reducer:{
+        dragon:dragonSlice,
+        mission:missionSlice
     }
-});
+})
+
+export default store;

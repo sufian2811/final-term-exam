@@ -1,31 +1,43 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {createSlice,createAsyncThunk} from '@reduxjs/toolkit';
 
-export const dragons=createAsyncThunk("dragonslice", async()=>{
-    const res=await fetch("https://api.spacexdata.com/v4/dragons");
-    return res.json();
-});
+export const fetchDragons=createAsyncThunk('fetchDragon',async()=>{
+       const res=await fetch('https://api.spacexdata.com/v4/dragons');
+       return res.json();
+})
 
-const dragonslice=createSlice({
-    name: "dragons slice",
-    initialState: {
-        isLoading: false,
-        data: null,
-        isError: false,
+export const dragonSlice=createSlice({
+    name:'dragon',
+    initialState:{
+        data:[],
+        isLoading:false
     },
-    extraReducers: (builder) => {
-        builder.addCase(dragonslice.isLoading, (state, action) => {
+    reducers:{
+        updateReserve:(state,action)=>{
+            const newState = JSON.parse(JSON.stringify(state));
+
+            const hold = newState.data.find((ele) => ele.id === action.payload);
+        
+            if(hold.reserve===false){
+                hold.reserve=true;
+            }
+            else{
+                hold.reserve=false;
+            }
+            
+            return newState;
+        }
+    },
+    extraReducers:(builder)=>{
+        builder.addCase(fetchDragons.pending,(state)=>{
             state.isLoading=true;
         });
-        builder.addCase(dragonslice.fulfilled, (state, action) => {
-            state.isLoading= false;
+        builder.addCase(fetchDragons.fulfilled,(state,action)=>{
+            state.isLoading=false;
+            
             state.data=action.payload;
-        });
-        builder.addCase(dragonslice.rejected, (state, action) => {
-            state.isError=true;
-            console.log("error");
-        });
+        })
     }
-    
-});
+})
 
-export default dragonslice.reducer;
+export default dragonSlice.reducer;
+export const {updateReserve}=dragonSlice.actions;

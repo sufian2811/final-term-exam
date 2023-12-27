@@ -1,31 +1,37 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {createSlice,createAsyncThunk} from '@reduxjs/toolkit';
 
-export const missions=createAsyncThunk("missionslice", async()=>{
-    const res=await fetch("https://api.spacexdata.com/v3/missions");
+export const fetchMissions=createAsyncThunk('fetchMission',async()=>{
+    const res=await fetch('https://api.spacexdata.com/v3/missions');
     return res.json();
-});
+})
 
-const missionslice=createSlice({
-    name: "mission slice",
-    initialState: {
-        isLoading: false,
-        data: null,
-        isError: false,
+export const missionSlice=createSlice({
+    name:'mission',
+    initialState:{
+        data:[],
+        isLoading:false
     },
-    extraReducers: (builder) => {
-        builder.addCase(missionslice.pending, (state, action) => {
+    reducers:{
+        updateMission:(state,action)=>{
+          const hold=state.data.find((ele)=> ele.mission_id===action.payload);
+          if(hold.join){
+            hold.join=false;
+          }
+          else{
+            hold.join=true;
+          }
+        }
+    },
+    extraReducers:(builder)=>{
+        builder.addCase(fetchMissions.pending,(state)=>{
             state.isLoading=true;
         });
-        builder.addCase(missionslice.fulfilled, (state, action) => {
-            state.isLoading= false;
+        builder.addCase(fetchMissions.fulfilled,(state,action)=>{
+            state.isLoading=false;
             state.data=action.payload;
-        });
-        builder.addCase(missionslice.rejected, (state, action) => {
-            state.isError=true;
-            console.log("error");
-        });
+        })
     }
-    
-});
+})
 
-export default missionslice.reducer;
+export default missionSlice.reducer
+export const {updateMission}=missionSlice.actions;
